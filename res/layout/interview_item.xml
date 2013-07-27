@@ -2,21 +2,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InterviewrActivity" >
+    tools:context=".InterviewrActivity"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp" >
 
-    <TextView
-        android:id="@+id/username"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/top_part"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textIsSelectable="false" />
-	<ImageView
-        android:id="@+id/picture"
-        android:layout_width="wrap_content"
+        android:background="#522c68"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+        
+        <TextView
+	        android:id="@+id/interview_time"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textIsSelectable="false" 
+	        android:text="10:45 - 11:30"
+	        android:textColor="#ffffff" />
+	    <TextView
+	        android:id="@+id/username"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textIsSelectable="false"
+	        android:text="John Smith"
+	        android:textColor="#ffffff"
+	        android:layout_below="@+id/interview_time" />
+    
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/bottom_part"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="" />
-    <TextView
-        android:id="@+id/interview_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textIsSelectable="false" />
+        android:layout_below="@+id/top_part"
+        android:background="#522c68"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp" >
+	    
+		<ImageView
+	        android:id="@+id/picture"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:contentDescription="" />
+		
+		<TextView
+	        android:id="@+id/about_me"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:textIsSelectable="false"
+	        android:text="What I do at Yahoo: My mission is to hire incredible, amazing, spectacular, fantastic, mighty talent at Yahoo and develop them to new heights and capabilities advancing our business to infinity and beyond!"
+	        android:textColor="#ffffff"
+	        android:layout_toRightOf="@+id/picture" />
+		
+	</RelativeLayout>
+    
 </RelativeLayout>

@@ -9,14 +9,14 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class InterviewrActivity extends Activity {
 	
-	private ListView list;
+	private ExpandableListView list;
 	private InterviewAdapter adapter;
 	private ArrayList <InterviewRowObject> interviewObjects;
 
@@ -27,7 +27,7 @@ public class InterviewrActivity extends Activity {
 		
 		interviewObjects = new ArrayList<InterviewRowObject>();
 		
-		list = (ListView) findViewById(R.id.interview_list);
+		list = (ExpandableListView) findViewById(R.id.interview_list);
 		adapter = new InterviewAdapter(InterviewrActivity.this);
 		list.setAdapter(adapter);
 	}
@@ -39,7 +39,7 @@ public class InterviewrActivity extends Activity {
 		return true;
 	}
 	
-	public class InterviewAdapter extends BaseAdapter {
+	public class InterviewAdapter extends BaseExpandableListAdapter {
 
 	    private Activity activity;
 	    private LayoutInflater inflater = null;
@@ -75,7 +75,7 @@ public class InterviewrActivity extends Activity {
 	            holder.mInterviewTime = (TextView) vi.findViewById(R.id.interview_time);
 	            vi.setTag(holder);
 	        } else
-	            holder = (ViewHolder)vi.getTag();
+	            holder = (ViewHolder) vi.getTag();
 
 	        holder.mUsername.setText(interviewObjects.get(position).username);
 	        holder.mPicture.setImageBitmap(interviewObjects.get(position).picture);
@@ -85,6 +85,68 @@ public class InterviewrActivity extends Activity {
 
 		public int getCount() {
 			return 0;
+		}
+
+		@Override
+		public Object getChild(int groupPosition, int childPosition) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public long getChildId(int groupPosition, int childPosition) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public View getChildView(int groupPosition, int childPosition,
+				boolean isLastChild, View convertView, ViewGroup parent) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public int getChildrenCount(int groupPosition) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public Object getGroup(int groupPosition) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public int getGroupCount() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public long getGroupId(int groupPosition) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+
+		@Override
+		public View getGroupView(int groupPosition, boolean isExpanded,
+				View convertView, ViewGroup parent) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public boolean hasStableIds() {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public boolean isChildSelectable(int groupPosition, int childPosition) {
+			// TODO Auto-generated method stub
+			return false;
 		}
 	}
 
