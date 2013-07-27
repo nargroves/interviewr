@@ -16,7 +16,7 @@ public class DropDownAnim extends Animation {
     boolean mIsDownDirection;
     
     public DropDownAnim(View target,  boolean d) {
-    	this(target, d, DEFAULT_DURATION);
+    	this(target,d,DEFAULT_DURATION);
     }
 
     public DropDownAnim(View target,  boolean d, int duration){

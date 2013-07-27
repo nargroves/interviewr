@@ -27,7 +27,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:textIsSelectable="false"
-	        android:text="John Smith"
+	        android:text="Sandy Gould"
 	        android:textColor="#ffffff"
 	        android:layout_below="@+id/interview_time" />
     
@@ -45,11 +45,11 @@
 	    
 		<ImageView
 	        android:id="@+id/picture"
-	        android:src="@drawable/sandyg_original"
-	        android:layout_width="80dp"
-	        android:layout_height="80dp"
-	        android:contentDescription="" />
-		
+	        android:layout_width="120dp"
+	        android:layout_height="120dp"
+	        android:contentDescription=""
+	        android:src="@drawable/sandyg"
+	        android:layout_centerVertical="true" />		
 		<TextView
 	        android:id="@+id/about_me"
 	        android:layout_width="wrap_content"

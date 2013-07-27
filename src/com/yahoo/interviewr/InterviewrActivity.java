@@ -1,20 +1,27 @@
 package com.yahoo.interviewr;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class InterviewrActivity extends Activity {
@@ -28,11 +35,37 @@ public class InterviewrActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_interviewr);
 		
-		interviewObjects = new ArrayList<InterviewRowObject>();
 		
-		list = (ExpandableListView) findViewById(R.id.interview_list);
+		interviewObjects = populateFromTextFile("nargroves");
+		
+		
+		list = (ListView) findViewById(R.id.interview_list);
 		adapter = new InterviewAdapter(InterviewrActivity.this);
 		list.setAdapter(adapter);
+	}
+	
+	private ArrayList <InterviewRowObject> populateFromTextFile(String interviewee) {
+		interviewObjects = new ArrayList<InterviewRowObject>();
+
+		try {
+			InputStream is = getAssets().open(interviewee);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+			while(reader.ready()) {
+				String lineOriginal = reader.readLine();
+				String [] line = lineOriginal.split("\\~",-1);
+				InterviewRowObject thisRow = new InterviewRowObject();
+				thisRow.interviewTime = line[1];
+				thisRow.username = line[2];
+				thisRow.jobTitle = line[3];
+				//Drawable d = Drawable.createFromPath("@drawable/"+line[4]);
+				//thisRow.picture = ((BitmapDrawable)d).getBitmap();
+				thisRow.jobDescription = line[5];
+			}
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		
+		return interviewObjects;
 	}
 
 	@Override
@@ -61,11 +94,10 @@ public class InterviewrActivity extends Activity {
 	    }
 
 	    public class ViewHolder{
-	        public TextView nameTv;
-	        public TextView interviewTimeTv;
-	        public ImageView aboutMeTv;
-	        public RelativeLayout expandedView;
-	        public boolean expanded = false;
+	        public TextView mUsername;
+	        public ImageView mPicture;
+	        public TextView mInterviewTime;
+	        public ImageView image;
 	    }
 
 	    public View getView(int position, View convertView, ViewGroup parent) {
@@ -74,40 +106,21 @@ public class InterviewrActivity extends Activity {
 	        if (convertView == null) {
 	            vi = inflater.inflate(R.layout.interview_item, null);
 	            holder = new ViewHolder();
-	            holder.nameTv = (TextView) vi.findViewById(R.id.username);
-	            holder.interviewTimeTv = (TextView) vi.findViewById(R.id.interview_time);
-	            holder.expandedView = (RelativeLayout) vi.findViewById(R.id.bottom_part);
+	            holder.mUsername = (TextView) vi.findViewById(R.id.username);
+	            holder.mPicture = (ImageView) vi.findViewById(R.id.picture);
+	            holder.mInterviewTime = (TextView) vi.findViewById(R.id.interview_time);
 	            vi.setTag(holder);
 	        } else
 	            holder = (ViewHolder) vi.getTag();
 
-	        //holder.nameTv.setText(interviewObjects.get(position).username);
-	        //holder.interviewTimeTv.setText(interviewObjects.get(position).interviewTime);
-			
-			String mtgName = (String) holder.nameTv.getText();
-			if (!(mtgName == "Break" || mtgName == "Lunch")) {
-				convertView.setOnClickListener(onCellClicked);
-			}
-	        
+	        holder.mUsername.setText(interviewObjects.get(position).username);
+	        holder.mPicture.setImageBitmap(interviewObjects.get(position).picture);
+	        holder.mInterviewTime.setText(interviewObjects.get(position).interviewTime);
 	        return vi;
 	    }
 
 		public int getCount() {
 			return 0;
 		}
-		
-		private OnClickListener onCellClicked = new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-					ViewHolder holder = (ViewHolder) v.getTag();
-					RelativeLayout expandedView = holder.expandedView;
-					expandedView.setVisibility(View.VISIBLE);
-					expandedView.getLayoutParams().height = 0;
-					DropDownAnim dda = new DropDownAnim(expandedView, true);
-					expandedView.startAnimation(dda);
-	        	}
-			};
 	}
-
 }
