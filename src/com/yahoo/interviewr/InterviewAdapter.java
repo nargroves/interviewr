@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,6 +35,8 @@ public class InterviewAdapter extends BaseAdapter {
         public ImageView picture;
         public RelativeLayout expandedView;
         public InterviewRowObject interviewRow;
+        public boolean isLastRow;
+        public ListView listView;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -50,6 +53,13 @@ public class InterviewAdapter extends BaseAdapter {
             holder.aboutMeTv = (TextView) vi.findViewById(R.id.about_me);
             // add data about the interview row to the view as the tag
             holder.interviewRow = thisRow;
+            ListView parentLv = (ListView)parent;
+            holder.listView = parentLv;
+            if(parentLv.getLastVisiblePosition() == position) {
+            	holder.isLastRow = true;
+            } else {
+            	holder.isLastRow = false;
+            }
             vi.setTag(holder);
         } else {
             holder = (ViewHolder) vi.getTag();
@@ -79,17 +89,27 @@ public class InterviewAdapter extends BaseAdapter {
 
 		@Override
 		public void onClick(View v) {
-				ViewHolder holder = (ViewHolder) v.getTag();
-				InterviewRowObject row = holder.interviewRow;
-				RelativeLayout expandedView = holder.expandedView;
-				if (row.mExpanded) {
-					collapse(expandedView);
-				}
-				else {
-					expand(expandedView);
-				}
-				row.mExpanded = !row.mExpanded;				
-    	}
+			final ViewHolder holder = (ViewHolder) v.getTag();
+			InterviewRowObject row = holder.interviewRow;
+			RelativeLayout expandedView = holder.expandedView;
+			if (row.mExpanded) {
+				collapse(expandedView);
+			}
+			else {
+				expand(expandedView);
+			}
+			row.mExpanded = !row.mExpanded;
+			
+			if(holder.isLastRow) {
+				holder.listView.post(new Runnable() {
+			        @Override
+			        public void run() {
+			            // Select the last row so it will scroll into view...
+			        	holder.listView.smoothScrollBy(1000,2000);
+			        }
+			    });
+			}
+		}
 	};
 	
 	private void collapse(View expandedView) {

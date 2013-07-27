@@ -26,6 +26,7 @@ public class InterviewrActivity extends Activity {
 		list = (ListView) findViewById(R.id.interview_list);
 		adapter = new InterviewAdapter(InterviewrActivity.this, interviewObjects);
 		list.setAdapter(adapter);
+		list.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 	}
 	
 	private ArrayList <InterviewRowObject> populateFromTextFile(String interviewee) {
