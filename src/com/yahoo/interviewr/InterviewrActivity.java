@@ -63,13 +63,6 @@ public class InterviewrActivity extends Activity {
 		
 		return interviewObjects;
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.interviewr, menu);
-		return true;
-	}
 	
 	public class InterviewAdapter extends BaseAdapter {
 
