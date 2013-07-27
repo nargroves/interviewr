@@ -69,7 +69,7 @@ public class InterviewAdapter extends BaseAdapter {
 		
         // if slot is breaktime, make unclickable
 		if (!thisRow.mName.equals("Break")) {
-			convertView.setOnClickListener(onCellClicked);
+			vi.setOnClickListener(onCellClicked);
 		}
         
         return vi;

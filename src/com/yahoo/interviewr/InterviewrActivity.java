@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.widget.ListView;
 
 public class InterviewrActivity extends Activity {
