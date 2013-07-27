@@ -39,6 +39,7 @@
         android:dividerHeight="10dp"
         android:layout_marginLeft="10dp"
     	android:layout_marginRight="10dp"
+    	android:background="#6e329d"
         android:textColor="#ffffff" >
     </ListView>
 </RelativeLayout>

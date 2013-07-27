@@ -1,5 +1,6 @@
 package com.yahoo.interviewr;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 /*
@@ -13,6 +14,7 @@ public class InterviewRowObject {
 	String mAboutMe;
 	boolean mExpanded;
 	
+	@SuppressLint("DefaultLocale")
 	public InterviewRowObject(Context activityContext, String name, 
 			String interviewTime, String position, String aboutMe) {
 		this.mName = name;
