@@ -33,6 +33,7 @@ public class InterviewAdapter extends BaseAdapter {
         public TextView aboutMeTv;
         public ImageView picture;
         public RelativeLayout expandedView;
+        public InterviewRowObject interviewRow;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -47,14 +48,18 @@ public class InterviewAdapter extends BaseAdapter {
             holder.expandedView = (RelativeLayout) vi.findViewById(R.id.bottom_part);
             holder.picture = (ImageView) vi.findViewById(R.id.picture);
             holder.aboutMeTv = (TextView) vi.findViewById(R.id.about_me);
+            // add data about the interview row to the view as the tag
+            holder.interviewRow = thisRow;
             vi.setTag(holder);
-        } else
+        } else {
             holder = (ViewHolder) vi.getTag();
-
+        }
+        
         holder.nameTv.setText(thisRow.mName);
         holder.interviewTimeTv.setText(thisRow.mInterviewTime);
         holder.picture.setImageResource(thisRow.mPhotoId);
         holder.aboutMeTv.setText(thisRow.mAboutMe);
+        
         if (thisRow.mExpanded) {
         	holder.expandedView.setVisibility(View.VISIBLE);
         }
@@ -75,10 +80,23 @@ public class InterviewAdapter extends BaseAdapter {
 		@Override
 		public void onClick(View v) {
 				ViewHolder holder = (ViewHolder) v.getTag();
+				InterviewRowObject row = holder.interviewRow;
 				RelativeLayout expandedView = holder.expandedView;
-				expand(expandedView);
+				if (row.mExpanded) {
+					collapse(expandedView);
+				}
+				else {
+					expand(expandedView);
+				}
+				row.mExpanded = !row.mExpanded;				
     	}
 	};
+	
+	private void collapse(View expandedView) {
+		expandedView.setVisibility(View.GONE);
+		DropDownAnim dda = new DropDownAnim(expandedView, true);
+		expandedView.startAnimation(dda);
+	}
 	
 	private void expand(View expandedView) {
 		expandedView.setVisibility(View.VISIBLE);
