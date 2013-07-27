@@ -2,21 +2,24 @@ package com.yahoo.interviewr;
 
 import java.util.ArrayList;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseExpandableListAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class InterviewrActivity extends Activity {
 	
-	private ExpandableListView list;
+	private ListView list;
 	private InterviewAdapter adapter;
 	private ArrayList <InterviewRowObject> interviewObjects;
 
@@ -39,7 +42,7 @@ public class InterviewrActivity extends Activity {
 		return true;
 	}
 	
-	public class InterviewAdapter extends BaseExpandableListAdapter {
+	public class InterviewAdapter extends BaseAdapter {
 
 	    private Activity activity;
 	    private LayoutInflater inflater = null;
@@ -58,10 +61,11 @@ public class InterviewrActivity extends Activity {
 	    }
 
 	    public class ViewHolder{
-	        public TextView mUsername;
-	        public ImageView mPicture;
-	        public TextView mInterviewTime;
-	        public ImageView image;
+	        public TextView nameTv;
+	        public TextView interviewTimeTv;
+	        public ImageView aboutMeTv;
+	        public RelativeLayout expandedView;
+	        public boolean expanded = false;
 	    }
 
 	    public View getView(int position, View convertView, ViewGroup parent) {
@@ -70,84 +74,40 @@ public class InterviewrActivity extends Activity {
 	        if (convertView == null) {
 	            vi = inflater.inflate(R.layout.interview_item, null);
 	            holder = new ViewHolder();
-	            holder.mUsername = (TextView) vi.findViewById(R.id.username);
-	            holder.mPicture = (ImageView) vi.findViewById(R.id.picture);
-	            holder.mInterviewTime = (TextView) vi.findViewById(R.id.interview_time);
+	            holder.nameTv = (TextView) vi.findViewById(R.id.username);
+	            holder.interviewTimeTv = (TextView) vi.findViewById(R.id.interview_time);
+	            holder.expandedView = (RelativeLayout) vi.findViewById(R.id.bottom_part);
 	            vi.setTag(holder);
 	        } else
 	            holder = (ViewHolder) vi.getTag();
 
-	        holder.mUsername.setText(interviewObjects.get(position).username);
-	        holder.mPicture.setImageBitmap(interviewObjects.get(position).picture);
-	        holder.mInterviewTime.setText(interviewObjects.get(position).interviewTime);
+	        //holder.nameTv.setText(interviewObjects.get(position).username);
+	        //holder.interviewTimeTv.setText(interviewObjects.get(position).interviewTime);
+			
+			String mtgName = (String) holder.nameTv.getText();
+			if (!(mtgName == "Break" || mtgName == "Lunch")) {
+				convertView.setOnClickListener(onCellClicked);
+			}
+	        
 	        return vi;
 	    }
 
 		public int getCount() {
 			return 0;
 		}
+		
+		private OnClickListener onCellClicked = new OnClickListener() {
 
-		@Override
-		public Object getChild(int groupPosition, int childPosition) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public long getChildId(int groupPosition, int childPosition) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public View getChildView(int groupPosition, int childPosition,
-				boolean isLastChild, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public int getChildrenCount(int groupPosition) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public Object getGroup(int groupPosition) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public int getGroupCount() {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public long getGroupId(int groupPosition) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public View getGroupView(int groupPosition, boolean isExpanded,
-				View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public boolean hasStableIds() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-
-		@Override
-		public boolean isChildSelectable(int groupPosition, int childPosition) {
-			// TODO Auto-generated method stub
-			return false;
-		}
+			@Override
+			public void onClick(View v) {
+					ViewHolder holder = (ViewHolder) v.getTag();
+					RelativeLayout expandedView = holder.expandedView;
+					expandedView.setVisibility(View.VISIBLE);
+					expandedView.getLayoutParams().height = 0;
+					DropDownAnim dda = new DropDownAnim(expandedView, true);
+					expandedView.startAnimation(dda);
+	        	}
+			};
 	}
 
 }
