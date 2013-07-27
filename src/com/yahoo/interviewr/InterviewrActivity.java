@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 
 public class InterviewrActivity extends Activity {
@@ -24,6 +25,7 @@ public class InterviewrActivity extends Activity {
 		interviewObjects = populateFromTextFile("nargroves");
 		
 		list = (ListView) findViewById(R.id.interview_list);
+		list.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
 		adapter = new InterviewAdapter(InterviewrActivity.this, interviewObjects);
 		list.setAdapter(adapter);
 		list.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);

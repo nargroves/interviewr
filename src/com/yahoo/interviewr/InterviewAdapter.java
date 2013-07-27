@@ -4,9 +4,11 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -69,12 +71,12 @@ public class InterviewAdapter extends BaseAdapter {
         holder.interviewTimeTv.setText(thisRow.mInterviewTime);
         holder.picture.setImageResource(thisRow.mPhotoId);
         holder.aboutMeTv.setText(thisRow.mAboutMe);
-        
         if (thisRow.mExpanded) {
-        	holder.expandedView.setVisibility(View.VISIBLE);
+        	holder.expandedView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+            holder.expandedView.getLayoutParams().height = holder.expandedView.getMeasuredHeight();
         }
         else {
-        	holder.expandedView.setVisibility(View.GONE);
+        	holder.expandedView.getLayoutParams().height = 0;
         }
 		
         // if slot is breaktime, make unclickable
@@ -89,38 +91,27 @@ public class InterviewAdapter extends BaseAdapter {
 
 		@Override
 		public void onClick(View v) {
-			final ViewHolder holder = (ViewHolder) v.getTag();
-			InterviewRowObject row = holder.interviewRow;
-			RelativeLayout expandedView = holder.expandedView;
-			if (row.mExpanded) {
-				collapse(expandedView);
-			}
-			else {
-				expand(expandedView);
-			}
-			row.mExpanded = !row.mExpanded;
-			
-			if(holder.isLastRow) {
-				holder.listView.post(new Runnable() {
-			        @Override
-			        public void run() {
-			            // Select the last row so it will scroll into view...
-			        	holder.listView.smoothScrollBy(1000,2000);
-			        }
-			    });
-			}
-		}
+				final ViewHolder holder = (ViewHolder) v.getTag();
+				InterviewRowObject row = holder.interviewRow;
+				RelativeLayout expandedView = holder.expandedView;
+				if (row.mExpanded) {
+					collapse(expandedView);
+				}
+				else {
+					expand(expandedView);
+				}
+				row.mExpanded = !row.mExpanded;	
+				
+				holder.listView.requestLayout();
+    	}
 	};
 	
 	private void collapse(View expandedView) {
-		expandedView.setVisibility(View.GONE);
-		DropDownAnim dda = new DropDownAnim(expandedView, true);
+		DropDownAnim dda = new DropDownAnim(expandedView, false);
 		expandedView.startAnimation(dda);
 	}
 	
 	private void expand(View expandedView) {
-		expandedView.setVisibility(View.VISIBLE);
-		expandedView.getLayoutParams().height = 0;
 		DropDownAnim dda = new DropDownAnim(expandedView, true);
 		expandedView.startAnimation(dda);
 	}
