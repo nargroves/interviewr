@@ -12,6 +12,7 @@
         android:layout_alignParentTop="true"
         android:gravity="center"
         android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:textColor="#ffffff"
         android:text="@string/welcome_message" >
     </TextView>
@@ -33,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/welcome_message"
         android:layout_above="@+id/help_message"
+        android:dividerHeight="10dp"
         android:textColor="#ffffff" >
     </ListView>
 </RelativeLayout>

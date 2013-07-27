@@ -40,7 +40,7 @@ public class InterviewrActivity extends Activity {
 				String interviewTime = line[1];
 				String username = line[2];
 				String jobTitle = line[3];
-				String jobDescription = line[5];
+				String jobDescription = line[4];
 				InterviewRowObject thisRow = new InterviewRowObject(this, 
 						username, interviewTime, jobTitle, jobDescription);
 				interviewObjects.add(thisRow);
