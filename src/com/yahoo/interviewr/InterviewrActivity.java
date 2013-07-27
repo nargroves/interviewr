@@ -1,5 +1,9 @@
 package com.yahoo.interviewr;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -11,7 +15,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -45,14 +48,14 @@ public class InterviewrActivity extends Activity {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 			while(reader.ready()) {
 				String lineOriginal = reader.readLine();
-				String [] line = lineOriginal.split("\\~",-1);
-				InterviewRowObject thisRow = new InterviewRowObject();
-				thisRow.interviewTime = line[1];
-				thisRow.username = line[2];
-				thisRow.jobTitle = line[3];
-				//Drawable d = Drawable.createFromPath("@drawable/"+line[4]);
-				//thisRow.picture = ((BitmapDrawable)d).getBitmap();
-				thisRow.jobDescription = line[5];
+				String [] line = lineOriginal.split("\\~", -1);
+				String interviewTime = line[1];
+				String username = line[2];
+				String jobTitle = line[3];
+				String jobDescription = line[5];
+				InterviewRowObject thisRow = new InterviewRowObject(this, 
+						username, interviewTime, jobTitle, jobDescription);
+				interviewObjects.add(thisRow);
 			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
@@ -89,26 +92,35 @@ public class InterviewrActivity extends Activity {
 	    public class ViewHolder{
 	        public TextView nameTv;
 	        public TextView interviewTimeTv;
-	        public ImageView aboutMeTv;
+	        public TextView aboutMeTv;
+	        public ImageView picture;
 	        public RelativeLayout expandedView;
-	        public boolean expanded = false;
 	    }
 
 	    public View getView(int position, View convertView, ViewGroup parent) {
+	    	InterviewRowObject thisRow = interviewObjects.get(position);
 	        View vi = convertView;
 	        ViewHolder holder;
 	        if (convertView == null) {
 	            vi = inflater.inflate(R.layout.interview_item, null);
 	            holder = new ViewHolder();
-	            holder.nameTv = (TextView) vi.findViewById(R.id.username);
+	            holder.nameTv = (TextView) vi.findViewById(R.id.name);
 	            holder.interviewTimeTv = (TextView) vi.findViewById(R.id.interview_time);
 	            holder.expandedView = (RelativeLayout) vi.findViewById(R.id.bottom_part);
+	            holder.picture = (ImageView) vi.findViewById(R.id.picture);
+	            holder.aboutMeTv = (TextView) vi.findViewById(R.id.about_me);
 	            vi.setTag(holder);
 	        } else
 	            holder = (ViewHolder) vi.getTag();
 
-	        //holder.nameTv.setText(interviewObjects.get(position).username);
-	        //holder.interviewTimeTv.setText(interviewObjects.get(position).interviewTime);
+	        holder.nameTv.setText(thisRow.mName);
+	        holder.interviewTimeTv.setText(thisRow.mInterviewTime);
+	        if (thisRow.mExpanded) {
+	        	holder.expandedView.setVisibility(View.VISIBLE);
+	        }
+	        else {
+	        	holder.expandedView.setVisibility(View.GONE);
+	        }
 			
 			String mtgName = (String) holder.nameTv.getText();
 			if (!(mtgName == "Break" || mtgName == "Lunch")) {
@@ -128,12 +140,15 @@ public class InterviewrActivity extends Activity {
 			public void onClick(View v) {
 					ViewHolder holder = (ViewHolder) v.getTag();
 					RelativeLayout expandedView = holder.expandedView;
-					expandedView.setVisibility(View.VISIBLE);
-					expandedView.getLayoutParams().height = 0;
-					DropDownAnim dda = new DropDownAnim(expandedView, true);
-					expandedView.startAnimation(dda);
-	        	}
-			};
+					expand(expandedView);
+        	}
+		};
+		
+		private void expand(View expandedView) {
+			expandedView.setVisibility(View.VISIBLE);
+			expandedView.getLayoutParams().height = 0;
+			DropDownAnim dda = new DropDownAnim(expandedView, true);
+			expandedView.startAnimation(dda);
+		}
 	}
-
 }
