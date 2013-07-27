@@ -2,14 +2,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#6e329d"
     tools:context=".InterviewrActivity" >
-
+    
+    <TextView
+        android:id="@+id/welcome_message"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:layout_marginTop="4dp"
+        android:textColor="#ffffff"
+        android:text="@string/welcome_message" >
+    </TextView>
+    
+    <TextView
+        android:id="@+id/help_message"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_marginBottom="4dp"
+        android:textColor="#ffffff"
+        android:text="@string/help_message" >
+    </TextView>
+       
     <ListView
         android:id="@+id/interview_list"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/welcome_message"
+        android:layout_above="@+id/help_message"
+        android:textColor="#ffffff" >
     </ListView>
-
 </RelativeLayout>

@@ -4,5 +4,7 @@
     <string name="app_name">Interviewr</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="welcome_message">We are happy to have you here!\nToday you are meeting with the following Yahoos:</string>
+    <string name="help_message">Remember to click on their names to find more\ninformation about our Yahoos!</string>
 
 </resources>
